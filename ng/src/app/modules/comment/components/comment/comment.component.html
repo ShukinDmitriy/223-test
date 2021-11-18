@@ -1,0 +1,35 @@
+<div class="card mb-3" [class.border-right-0]="parentId !== null" *ngFor="let comment of comments; let i = index; trackBy: trackFn">
+  <div class="card-header d-flex justify-content-between">
+    <div>Пользователь {{ comment.author_name }} написал {{ comment.date_time }}</div>
+    <div>#{{comment.id}}</div>
+  </div>
+  <div class="card-body pr-0">
+    <p class="card-text"
+       [innerHTML]="prepareHTML(comment.body)"
+    ></p>
+
+    <button
+      type="button"
+      class="btn btn-primary mr-3 mb-3"
+      (click)="viewChild.has(comment.id) ? viewChild.delete(comment.id) : viewChild.add(comment.id)">Показать ответы
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-primary mr-3 mb-3"
+      (click)="openAnswer.has(comment.id) ? openAnswer.delete(comment.id) : openAnswer.add(comment.id)">Ответить
+    </button>
+
+    <app-module-comment-component-answer
+      *ngIf="openAnswer.has(comment.id)" [comment]="comment"
+      (answerWasAdded$)="afterAnswerWasAdded(comment.id)"
+    >
+    </app-module-comment-component-answer>
+
+    <app-module-comment-component-comment
+      *ngIf="viewChild.has(comment.id)"
+      [parentId]="comment.id"
+    ></app-module-comment-component-comment>
+
+  </div>
+</div>

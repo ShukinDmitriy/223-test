@@ -1,0 +1,37 @@
+<ng-container *ngIf="comment">
+  <h5>Ответить @{{comment.author_name}}</h5>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group mr-3 mb-3">
+      <label [for]="'author_name-' + comment.id">Ваше имя</label>
+      <input
+        [formControl]="form.get('author_name')"
+        type="text"
+        class="form-control"
+        [class.is-invalid]="form.get('author_name').touched && !form.get('author_name').valid"
+        [id]="'author_name-' + comment.id"
+      >
+      <div class="invalid-feedback">Заполните свое имя</div>
+    </div>
+
+    <div class="form-group mr-3 mb-3">
+      <label [for]="'body-' + comment.id">Ответ</label>
+      <textarea
+        [formControl]="form.get('body')"
+        class="form-control"
+        [class.is-invalid]="form.get('body').touched && !form.get('body').valid"
+        [id]="'body-' + comment.id"
+        rows="5"
+      ></textarea>
+      <div class="invalid-feedback">Заполните текст ответа</div>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary mr-3"
+    >
+      Отправить ответ
+    </button>
+
+  </form>
+</ng-container>
